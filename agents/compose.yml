@@ -1,0 +1,20 @@
+services:
+  tiny-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 6060:8000
+    environment:
+      - PORT=8000
+      - OPENAI_API_BASE=${DMR_BASE_URL}/engines/llama.cpp/v1
+      - OPENAI_API_KEY="tinymodelsaretheway"
+      - MODEL_RUNNER_CHAT_MODEL=${MODEL_RUNNER_CHAT_MODEL}
+    depends_on:
+      - download-chat-model
+      
+  download-chat-model:
+    provider:
+      type: model
+      options:
+        model: ${MODEL_RUNNER_CHAT_MODEL}
